@@ -1,10 +1,14 @@
 import Header from '../Header/Header';
+import Promo from '../Promo/Promo';
 import './Main.css';
 
 function Main() {
   return (
     <>
-      <Header />
+      <Header isAuth={false} />
+      <main>
+        <Promo />
+      </main>
     </>
   );
 }
