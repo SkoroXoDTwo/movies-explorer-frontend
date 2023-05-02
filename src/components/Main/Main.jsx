@@ -1,3 +1,4 @@
+import AboutProject from '../AboutProject/AboutProject';
 import Header from '../Header/Header';
 import NavTab from '../NavTab/NavTab';
 import Promo from '../Promo/Promo';
@@ -10,6 +11,7 @@ function Main() {
       <main>
         <Promo />
         <NavTab />
+        <AboutProject />
       </main>
     </>
   );
