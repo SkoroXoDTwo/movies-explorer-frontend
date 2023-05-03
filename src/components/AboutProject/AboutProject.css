@@ -9,10 +9,22 @@
 .about-project__container {
   max-width: 1280px;
   width: 100%;
-  padding: 110px 70px;
+  padding: 110px 70px 141px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width: 1024px) {
+  .about-project__container {
+    padding: 90px 50px 121px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__container {
+    padding: 70px 18px 93px;
+  }
 }
 
 .about-project__info-list {
@@ -25,11 +37,30 @@
   gap: 40px;
 }
 
+@media screen and (max-width: 1024px) {
+  .about-project__info-list {
+    padding: 70px 0 93px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__info-list {
+    padding: 60px 0;
+    grid-template-columns: 1fr;
+  }
+}
+
 .about-project__info-item {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 28px;
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__info-item {
+    gap: 16px;
+  }
 }
 
 .about-project__subtitle {
@@ -42,6 +73,13 @@
   color: #FFFFFF;
 }
 
+@media screen and (max-width: 550px) {
+  .about-project__subtitle {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
 .about-project__text {
   margin: 0;
   padding: 0;
@@ -49,6 +87,13 @@
   font-size: 14px;
   line-height: 20px;
   color: #FFFFFF;
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__text {
+    font-size: 11px;
+    line-height: 16px;
+  }
 }
 
 .about-project__time-intervals {
@@ -72,6 +117,18 @@
   color: #000000;
 }
 
+@media screen and (max-width: 1024px) {
+  .about-project__time-interval_short {
+    max-width: 140px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__time-interval_short {
+    max-width: 100px;
+  }
+}
+
 .about-project__time-interval-text {
   margin: 0;
   padding: 0;
@@ -80,6 +137,13 @@
   line-height: 17px;
   text-align: center;
   width: 100%;
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__time-interval-text {
+    font-size: 11px;
+    line-height: 13px;
+  }
 }
 
 .about-project__time-interval-label {
@@ -94,4 +158,11 @@
   bottom: -14px;
   left: 50%;
   transform: translate(-50%, 100%);
+}
+
+@media screen and (max-width: 550px) {
+  .about-project__time-interval-label {
+    font-size: 11px;
+    line-height: 13px;
+  }
 }
