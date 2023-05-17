@@ -1,0 +1,117 @@
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: #202020;
+}
+
+.search-form__container {
+  max-width: 1280px;
+  width: 100%;
+  padding: 70px 70px 69px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form__input-container {
+  background: #2F2F2F;
+  border-radius: 9px 0 0 9px;
+  padding: 19px 30px 19px 19px;
+  width: 100%;
+  display: flex;
+  border-right: 1px solid #424242;
+}
+
+.search-form__input-icon {
+  height: 34px;
+  width: 34px;
+  background: url(../../images/loupe-icon.svg) no-repeat center;
+  background-size: contain;
+}
+
+.search-form__input {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  color: #FFFFFF;
+}
+
+.search-form__input:focus-visible {
+  outline: none;
+}
+
+.search-form__input::placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  color: #8B8B8B;
+}
+
+.search-form__input-btn {
+  margin-left: 46px;
+  border: none;
+  padding: 0;
+  height: 34px;
+  width: 34px;
+  background: url(../../images/loupe-btn-icon.svg) no-repeat center;
+  background-size: contain;
+  transition: opacity 0.2s;
+}
+
+.search-form__input-btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.search-form__toggle-container {
+  display: flex;
+  padding: 26px 30px 26px 29px;
+  background: #2F2F2F;
+  border-radius: 0 9px 9px 0;
+  gap: 14px;
+  align-items: center;
+}
+
+.search-form__toggle-text {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #FFFFFF;
+}
+
+.search-form__toggle-btn {
+  width: 36px;
+  height: 20px;
+  background: #343434;
+  border-radius: 20px;
+  position: relative;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.search-form__toggle-btn::after {
+  position: absolute;
+  content: '';
+  background: #2BE080;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+}
+
+.search-form__toggle-btn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
