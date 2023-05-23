@@ -69,7 +69,7 @@ function MoviesCardList() {
   ]
 
   return (
-    <section className='movies-card-list'>
+    <div className='movies-card-list'>
       <div className='movies-card-list__container'>
         <ul className='movies-card-list__items'>
           {cardItemsConfig.map(card => (
@@ -84,7 +84,7 @@ function MoviesCardList() {
           ))}
         </ul>
       </div>
-    </section>
+    </div>
   );
 }
 
