@@ -18,7 +18,6 @@
   }
 }
 
-
 .movies-card__cover {
   display: flex;
   flex-direction: column;
@@ -38,6 +37,20 @@
   font-size: 13px;
   line-height: 16px;
   color: #FFFFFF;
+}
+
+.movies-card__btn-delete {
+  background: url(../../images/delete-card-btn.svg) no-repeat center;
+  background-size: contain;
+  width: 16px;
+  height: 16px;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.movies-card__btn-delete:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .movies-card__indicator {
