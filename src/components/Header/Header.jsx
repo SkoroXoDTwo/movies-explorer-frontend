@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 
-function Header({ isAuth = true }) {
+function Header({ isAuth = false }) {
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
 
   return (
@@ -49,10 +49,10 @@ function Header({ isAuth = true }) {
               <nav className='header__auth-btns'>
                 <ul className='header__auth-btns-list'>
                   <li>
-                    <button className='header__auth-btn-registration'>Регистрация</button>
+                    <Link to="/signup" className='header__auth-btn-registration'>Регистрация</Link>
                   </li>
                   <li>
-                    <button className='header__auth-btn-login'>Войти</button>
+                    <Link to="/signin" className='header__auth-btn-login'>Войти</Link>
                   </li>
                 </ul>
               </nav>
