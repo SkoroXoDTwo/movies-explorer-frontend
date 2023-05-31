@@ -47,6 +47,7 @@
   line-height: 16px;
   color: #FFFFFF;
   border-bottom: 1px solid #FFFFFF;
+  transition: opacity 0.2s;
 }
 
 .nav-tab__link:hover {

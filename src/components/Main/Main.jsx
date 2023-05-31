@@ -7,21 +7,10 @@ import Promo from '../Promo/Promo';
 import Techs from '../Techs/Techs';
 import './Main.css';
 
+import { portfolioProjectsConfig } from '../../config/portfolioProjectsConfig';
+
 function Main() {
-  const portfolioProjectsConfig = [
-    {
-      title: "Статичный сайт",
-      link: ""
-    },
-    {
-      title: "Адаптивный сайт",
-      link: ""
-    },
-    {
-      title: "Одностраничное приложение",
-      link: ""
-    }
-  ]
+
   return (
     <>
       <Header isAuth={true} backgroundColor="#073042" />
