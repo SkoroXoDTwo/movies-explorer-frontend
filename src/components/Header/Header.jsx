@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 
-function Header({ isAuth = false }) {
+function Header({ isAuth = false, backgroundColor }) {
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
 
   return (
-    <header className={`header${isAuth ? ' header_background_grey' : ''}`}>
+    <header className="header" style={{backgroundColor: backgroundColor}}>
       <div className='header__container'>
         <div className='header__column'>
           <Link to="/" className='header__logo-link'>
@@ -92,7 +92,7 @@ function Header({ isAuth = false }) {
           </Link>
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 

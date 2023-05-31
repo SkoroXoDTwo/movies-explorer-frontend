@@ -8,8 +8,8 @@ function Profile() {
 
   return (
     <>
-      <Header />
-      <section className='profile'>
+      <Header isAuth={true} backgroundColor="#202020" />
+      <main className='profile'>
         <div className='profile__container'>
           <h1 className='profile__title'>
             Привет, Виталий!
@@ -52,7 +52,7 @@ function Profile() {
             }
           </form>
         </div>
-      </section>
+      </main>
     </>
   );
 }

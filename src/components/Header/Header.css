@@ -4,6 +4,7 @@
   align-items: center;
   background: #073042;
   position: relative;
+  z-index: 1;
 }
 
 .header_background_grey {
@@ -230,6 +231,7 @@
   width: 100%;
   height: 100vh;
   opacity: 0.3;
+  z-index: 2;
 }
 
 .header__burger-menu {

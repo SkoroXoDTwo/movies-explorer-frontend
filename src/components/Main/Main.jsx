@@ -24,7 +24,7 @@ function Main() {
   ]
   return (
     <>
-      <Header isAuth={true} />
+      <Header isAuth={true} backgroundColor="#073042" />
       <main>
         <Promo />
         <NavTab />

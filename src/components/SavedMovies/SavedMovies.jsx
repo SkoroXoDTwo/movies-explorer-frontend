@@ -10,9 +10,11 @@ import { moviesItems } from '../../data/moviesData';
 function SavedMovies() {
   return (
     <>
-      <Header />
-      <SearchForm />
-      <MoviesCardList moviesItems={moviesItems} isSaved={true} />
+      <Header isAuth={true} backgroundColor="#202020" />
+      <main>
+        <SearchForm />
+        <MoviesCardList moviesItems={moviesItems} isSaved={true} />
+      </main>
       <Footer />
     </>
   );
