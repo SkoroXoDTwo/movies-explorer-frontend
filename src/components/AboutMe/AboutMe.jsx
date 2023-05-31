@@ -1,7 +1,7 @@
 import SectionTitle from '../SectionTitle/SectionTitle';
 import './AboutMe.css';
 
-function AboutMe({ projectsConfig }) {
+function AboutMe() {
   return (
     <section className='about-me'>
       <div className='about-me__container'>
@@ -22,26 +22,11 @@ function AboutMe({ projectsConfig }) {
                 начал заниматься фриланс-заказами и ушёл с постоянной работы.
               </p>
             </div>
-            <a className='about-me__github-link' href='https://github.com/SkoroXoDTwo'>
+            <a className='about-me__github-link' href='https://github.com/SkoroXoDTwo' target="_blank" rel="noreferrer">
               Github
             </a>
           </div>
           <img className='about-me__avatar' src="https://i.ibb.co/rf2RsRn/about-me-avatar.jpg" alt="аватар" />
-        </div>
-        <div className='about-me__portfolio'>
-          <h3 className='about-me__portfolio-title'>
-            Портфолио
-          </h3>
-          <ul className='about-me__portfolio-list'>
-            {projectsConfig.map((project) => (
-              <li key={project.title} className="about-me__portfolio-item">
-                <a className='about-me__portfolio-item-link' href={project.link}>
-                  <p className='about-me__portfolio-item-text'>{project.title}</p>
-                  <div className='about-me__portfolio-item-icon'></div>
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </section>

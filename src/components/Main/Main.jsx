@@ -8,6 +8,7 @@ import Techs from '../Techs/Techs';
 import './Main.css';
 
 import { portfolioProjectsConfig } from '../../config/portfolioProjectsConfig';
+import Portfolio from '../Portfolio/Portfolio';
 
 function Main() {
 
@@ -19,9 +20,10 @@ function Main() {
         <NavTab />
         <AboutProject />
         <Techs tehcsList={['HTML', 'CSS', 'JS', 'React', 'Git', 'Express.js', 'mongoDB']} />
-        <AboutMe projectsConfig={portfolioProjectsConfig} />
-        <Footer />
+        <AboutMe />
+        <Portfolio projectsConfig={portfolioProjectsConfig} />
       </main>
+      <Footer />
     </>
   );
 }

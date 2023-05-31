@@ -86,6 +86,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
 .profile__input-container {
@@ -94,12 +95,18 @@
   justify-content: space-between;
   border-bottom: 1px solid #424242;
   width: 100%;
+  position: relative;
+  transition: border 0.2s;
 }
 
 .profile__input-container:last-of-type {
   padding-bottom: 0;
   padding-top: 17px;
   border: none;
+}
+
+.profile__input-container_focus {
+  border-color: #3456F3;
 }
 
 @media screen and (max-width: 1024px) {
@@ -135,6 +142,10 @@
   color: #FFFFFF;
   border: none;
   background: none;
+}
+
+.profile__input:focus-visible {
+  outline: none;
 }
 
 .profile__edit-btn {
@@ -202,4 +213,27 @@
 .profile__save-btn:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+.profile__error-msg {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #FF004C;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.profile__error-msg_visible {
+  opacity: 1;
+  visibility: visible;
 }

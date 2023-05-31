@@ -1,14 +1,14 @@
 export const portfolioProjectsConfig = [
     {
         title: "Статичный сайт",
-        link: ""
+        link: "https://skoroxodtwo.github.io/how-to-learn/"
     },
     {
         title: "Адаптивный сайт",
-        link: ""
+        link: "https://skoroxodtwo.github.io/russian-travel/"
     },
     {
         title: "Одностраничное приложение",
-        link: ""
+        link: "https://skoroxodtwo.github.io/mesto-react/"
     }
 ]

@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 function Profile() {
   const [isEditModeActivated, setIsEditModeActivated] = useState(false);
+  const [isInputFocus, setIsInputFocus] = useState(false);
 
   return (
     <>
@@ -16,7 +17,7 @@ function Profile() {
           </h1>
           <form className='profile__form'>
             <div className='profile__inputs'>
-              <div className='profile__input-container'>
+              <div className={`profile__input-container ${isInputFocus ? 'profile__input-container_focus' : ''}`}>
                 <p className='profile__input-title'>
                   Имя
                 </p>
@@ -24,7 +25,13 @@ function Profile() {
                   className='profile__input'
                   placeholder='Введите имя'
                   disabled={!isEditModeActivated}
+                  onFocus={() => { setIsInputFocus(true) }}
+                  onBlur={() => { setIsInputFocus(false) }}
+                  minLength="2"
+                  maxLength="30"
+                  required
                 />
+                <span className='profile__input-focus-border' />
               </div>
               <div className='profile__input-container'>
                 <p className='profile__input-title'>
@@ -34,22 +41,31 @@ function Profile() {
                   className='profile__input'
                   placeholder='Введите e-mail'
                   disabled={!isEditModeActivated}
+                  onFocus={() => { setIsInputFocus(true) }}
+                  onBlur={() => { setIsInputFocus(false) }}
+                  type="email"
+                  required
                 />
               </div>
             </div>
-            {isEditModeActivated
-              ?
-              <button className='profile__save-btn' onClick={() => setIsEditModeActivated(false)} type="button">
-                Сохранить
-              </button>
-              :
-              <div className='profile__btns-container'>
-                <button className='profile__edit-btn' onClick={() => setIsEditModeActivated(true)} type="button">
-                  Редактировать
-                </button>
-                <button className='profile__logout-btn'>Выйти из аккаунта</button>
-              </div>
-            }
+            <div className='profile__btns-container'>
+              {isEditModeActivated
+                ?
+                <>
+                  <button className='profile__save-btn' onClick={() => setIsEditModeActivated(false)} type="button">
+                    Сохранить
+                  </button>
+                  <p className='profile__error-msg'>При обновлении профиля произошла ошибка.</p>
+                </>
+                :
+                <>
+                  <button className='profile__edit-btn' onClick={() => setIsEditModeActivated(true)} type="button">
+                    Редактировать
+                  </button>
+                  <button className='profile__logout-btn' type="button">Выйти из аккаунта</button>
+                </>
+              }
+            </div>
           </form>
         </div>
       </main>

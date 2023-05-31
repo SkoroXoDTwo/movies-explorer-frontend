@@ -134,6 +134,12 @@
   font-size: 14px;
   line-height: 17px;
   color: #FFFFFF;
+  transition: border 0.2s;
+}
+
+.login__input:focus-visible {
+  outline: none;
+  border-color: #4285F4;
 }
 
 .login__input_error {

@@ -16,12 +16,12 @@ function Footer() {
 
           <ul className='footer__link-list'>
             <li>
-              <a className='footer__link' href='#2'>
+              <a className='footer__link' href='https://practicum.yandex.ru/' target="_blank" rel='noreferrer'>
                 Яндекс.Практикум
               </a>
             </li>
             <li>
-              <a className='footer__link' href='#2'>
+              <a className='footer__link' href='https://github.com/SkoroXoDTwo' target="_blank" rel='noreferrer' >
                 Github
               </a>
             </li>

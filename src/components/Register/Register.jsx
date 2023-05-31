@@ -17,7 +17,7 @@ function Register() {
               <p className='register__input-title'>
                 Имя
               </p>
-              <input className='register__input' required />
+              <input className='register__input' required minLength="2" maxLength="2" />
               <p className='register__input-error'>Что-то пошло не так...</p>
             </div>
             <div className='register__input-container'>

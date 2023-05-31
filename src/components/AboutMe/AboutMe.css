@@ -9,7 +9,7 @@
 .about-me__container {
   max-width: 1280px;
   width: 100%;
-  padding: 100px 70px;
+  padding: 100px 70px 50px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -17,13 +17,13 @@
 
 @media screen and (max-width: 1024px) {
   .about-me__container {
-    padding: 90px 50px;
+    padding: 90px 50px 45px;
   }
 }
 
 @media screen and (max-width: 550px) {
   .about-me__container {
-    padding: 70px 14px;
+    padding: 70px 14px 35px;
   }
 }
 
@@ -167,118 +167,5 @@
     max-width: 292px;
     order: -1;
     align-self: center;
-  }
-}
-
-.about-me__portfolio {
-  padding: 100px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
-
-@media screen and (max-width: 1024px) {
-  .about-me__portfolio {
-    padding: 90px 0 0;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .about-me__portfolio {
-    padding: 70px 0 0;
-  }
-}
-
-.about-me__portfolio-title {
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 20px;
-  color: #8B8B8B;
-}
-
-@media screen and (max-width: 550px) {
-  .about-me__portfolio-title {
-    font-size: 14px;
-  }
-}
-
-.about-me__portfolio-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.about-me__portfolio-item {
-  border-bottom: 1px solid #424242;
-  transition: opacity 0.2s;
-}
-
-.about-me__portfolio-item:last-child {
-  border: none;
-}
-
-.about-me__portfolio-item:hover {
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-.about-me__portfolio-item-link {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 0 19px;
-  transition: opacity 0.2s;
-}
-
-.about-me__portfolio-item-link:hover {
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-
-.about-me__portfolio-item-text {
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 50px;
-  letter-spacing: -0.04em;
-  color: #FFFFFF;
-}
-
-@media screen and (max-width: 1024px) {
-  .about-me__portfolio-item-text {
-    font-size: 28px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .about-me__portfolio-item-text {
-    font-size: 18px;
-    line-height: 28px;
-  }
-}
-
-.about-me__portfolio-item-icon {
-  height: 60px;
-  width: 29px;
-  background: url(../../images/arrow-icon.svg) no-repeat center;
-  background-size: contain;
-}
-
-@media screen and (max-width: 1024px) {
-  .about-me__portfolio-item-icon {
-    width: 27px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .about-me__portfolio-item-icon {
-    height: 28px;
-    width: 18px;
   }
 }
