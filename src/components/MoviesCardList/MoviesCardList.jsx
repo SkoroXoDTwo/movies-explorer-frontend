@@ -17,7 +17,7 @@ function MoviesCardList({ moviesItems, isSaved }) {
                     title={card.title}
                     imgLink={card.imgLink}
                     isSaved={isSaved}
-                    isShort={card.isShort}
+                    isLike={card.isLike}
                   />
                 </li>))
             }

@@ -1,6 +1,6 @@
 import './MoviesCard.css';
 
-function MoviesCard({ title, imgLink, isSaved, isShort }) {
+function MoviesCard({ title, imgLink, isSaved, isLike }) {
   return (
     <article className='movies-card'>
       <img className='movies-card__img' src={imgLink} alt={title} />
@@ -13,7 +13,7 @@ function MoviesCard({ title, imgLink, isSaved, isShort }) {
             ?
             <button class="movies-card__btn-delete" />
             :
-            <div class={`movies-card__indicator ${isShort ? 'movies-card__indicator_active' : ''}`} />
+            <div class={`movies-card__indicator ${isLike ? 'movies-card__indicator_active' : ''}`} />
           }
         </div>
         <div className='movies-card__row'>

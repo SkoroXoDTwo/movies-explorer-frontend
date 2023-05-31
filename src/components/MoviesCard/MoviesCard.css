@@ -63,6 +63,12 @@
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.09);
   border-radius: 50px;
   border: 2px solid #fff;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.movies-card__indicator:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .movies-card__indicator_active {
