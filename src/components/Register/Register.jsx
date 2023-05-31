@@ -17,22 +17,22 @@ function Register() {
               <p className='register__input-title'>
                 Имя
               </p>
-              <input className='register__input' required minLength="2" maxLength="2" />
+              <input className='register__input' placeholder='Введите имя' required minLength="2" maxLength="2" />
               <p className='register__input-error'>Что-то пошло не так...</p>
             </div>
             <div className='register__input-container'>
               <p className='register__input-title'>
                 E-mail
               </p>
-              <input className='register__input' type="email" required />
+              <input className='register__input' type="email" placeholder='Введите email' required />
               <p className='register__input-error'>Что-то пошло не так...</p>
             </div>
             <div className='register__input-container'>
               <p className='register__input-title'>
                 Пароль
               </p>
-              <input className='register__input register__input_error' type='password' required />
-              <p className='register__input-error register__input-error_visible'>Что-то пошло не так...</p>
+              <input className='register__input' type='password' placeholder='Введите пароль' required />
+              <p className='register__input-error'>Что-то пошло не так...</p>
             </div>
           </div>
           <div className='register__btns'>

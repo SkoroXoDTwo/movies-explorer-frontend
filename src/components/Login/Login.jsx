@@ -17,15 +17,15 @@ function Login() {
               <p className='login__input-title'>
                 E-mail
               </p>
-              <input className='login__input' type="email" required />
+              <input className='login__input' type="email" placeholder='Введите email' required />
               <p className='login__input-error'>Что-то пошло не так...</p>
             </div>
             <div className='login__input-container'>
               <p className='login__input-title'>
                 Пароль
               </p>
-              <input className='login__input login__input_error' type='password' required />
-              <p className='login__input-error login__input-error_visible'>Что-то пошло не так...</p>
+              <input className='login__input' type='password'  placeholder='Введите пароль' required />
+              <p className='login__input-error'>Что-то пошло не так...</p>
             </div>
           </div>
           <div className='login__btns'>
