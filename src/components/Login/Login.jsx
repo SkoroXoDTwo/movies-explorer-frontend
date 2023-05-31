@@ -34,7 +34,7 @@ function Login() {
               <p className='login__footer-link-text'>
                 Ещё не зарегистрированы?
               </p>
-              <Link to="signup" className='login__footer-link'>Регистрация</Link>
+              <Link to="/signup" className='login__footer-link'>Регистрация</Link>
             </div>
           </div>
         </div>
