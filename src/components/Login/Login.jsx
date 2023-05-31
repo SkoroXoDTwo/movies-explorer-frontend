@@ -24,7 +24,7 @@ function Login() {
               <p className='login__input-title'>
                 Пароль
               </p>
-              <input className='login__input' type='password' required />
+              <input className='login__input login__input_error' type='password' required />
               <p className='login__input-error login__input-error_visible'>Что-то пошло не так...</p>
             </div>
           </div>

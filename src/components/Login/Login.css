@@ -7,10 +7,26 @@
 }
 
 .login__header {
-  max-width: 396px;
+  max-width: 456px;
   width: 100%;
-  padding: 70px 0 40px;
+  padding: 70px 30px 40px;
+  box-sizing: border-box;
 }
+
+@media screen and (max-width: 1024px) {
+  .login__header {
+    padding: 232px 30px 40px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .login__header {
+    padding: 56px 30px 50px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
 
 .login__header-logo {
   margin: 0;
@@ -32,10 +48,17 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 396px;
+  max-width: 456px;
   height: 100%;
   flex-grow: 1;
   padding: 0 30px 70px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 550px) {
+  .login__main {
+    padding: 0 30px 30px;
+  }
 }
 
 .login__title {
@@ -47,6 +70,13 @@
   color: #FFFFFF;
 }
 
+@media screen and (max-width: 550px) {
+  .login__title {
+    padding: 0 0 80px;
+    text-align: center;
+  }
+}
+
 .login__container {
   display: flex;
   flex-direction: column;
@@ -54,6 +84,20 @@
   width: 100%;
   flex-grow: 1;
   gap: 50px;
+}
+
+@media screen and (max-width: 1024px) {
+  .login__container {
+    justify-content: flex-start;
+    gap: 221px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .login__container {
+    justify-content: space-between;
+    gap: 50px;
+  }
 }
 
 .login__inputs {
@@ -90,6 +134,10 @@
   font-size: 14px;
   line-height: 17px;
   color: #FFFFFF;
+}
+
+.login__input_error {
+  color: #EE3465;
 }
 
 .login__input-error {
@@ -139,10 +187,20 @@
   opacity: 0.8;
 }
 
+
+@media screen and (max-width: 550px) {
+  .login__btn-auth {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+
 .login__footer-link-container {
   display: flex;
   gap: 6px;
   justify-content: center;
+  align-items: center;
 }
 
 .login__footer-link-text {
@@ -152,6 +210,13 @@
   font-size: 14px;
   line-height: 17px;
   color: #8B8B8B;
+}
+
+@media screen and (max-width: 550px) {
+  .login__footer-link-text {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }
 
 .login__footer-link {
@@ -170,4 +235,11 @@
 .login__footer-link:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+@media screen and (max-width: 550px) {
+  .login__footer-link {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }
