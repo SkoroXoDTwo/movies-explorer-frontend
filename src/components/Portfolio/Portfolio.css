@@ -9,7 +9,7 @@
 .portfolio__container {
   max-width: 1280px;
   width: 100%;
-  padding: 50px 70px 125px;
+  padding: 50px 70px 115px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -17,13 +17,13 @@
 
 @media screen and (max-width: 1024px) {
   .portfolio__container {
-    padding: 45px 50px 90px;
+    padding: 45px 50px 80px;
   }
 }
 
 @media screen and (max-width: 550px) {
   .portfolio__container {
-    padding: 35px 14px 70px;
+    padding: 35px 14px 60px;
   }
 }
 
@@ -54,7 +54,7 @@
 
 .portfolio__item {
   border-bottom: 1px solid #424242;
-  padding: 0 0 19px;
+  padding: 0 0 9px;
   transition: opacity 0.2s;
 }
 
