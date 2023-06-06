@@ -1,6 +1,10 @@
 import './MoviesCard.css';
 
-function MoviesCard({ title, imgLink, isSaved, isLike }) {
+const MoviesCard = ({ title, imgLink, isSaved, isLike, duration }) => {
+  const durationHour = Math.floor(duration / 60);
+  const durationMinute = duration % 60;
+  const durationString = `${durationHour ? durationHour + 'ч' : ''}${durationMinute ? durationMinute + 'м' : ''}`
+
   return (
     <article className='movies-card'>
       <img className='movies-card__img' src={imgLink} alt={title} />
@@ -11,14 +15,14 @@ function MoviesCard({ title, imgLink, isSaved, isLike }) {
           </h2>
           {isSaved
             ?
-            <button class="movies-card__btn-delete" />
+            <button className="movies-card__btn-delete" />
             :
-            <div class={`movies-card__indicator ${isLike ? 'movies-card__indicator_active' : ''}`} />
+            <div className={`movies-card__indicator ${isLike ? 'movies-card__indicator_active' : ''}`} />
           }
         </div>
         <div className='movies-card__row'>
           <p className='movies-card__time'>
-            1ч42м
+            {durationString}
           </p>
         </div>
       </div>

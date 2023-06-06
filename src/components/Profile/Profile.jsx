@@ -3,7 +3,7 @@ import './Profile.css';
 import Header from '../Header/Header';
 import { useState } from 'react';
 
-function Profile() {
+function Profile({ onSignOut }) {
   const [isEditModeActivated, setIsEditModeActivated] = useState(false);
   const [isInputFocus, setIsInputFocus] = useState(false);
 
@@ -62,7 +62,7 @@ function Profile() {
                   <button className='profile__edit-btn' onClick={() => setIsEditModeActivated(true)} type="button">
                     Редактировать
                   </button>
-                  <button className='profile__logout-btn' type="button">Выйти из аккаунта</button>
+                  <button className='profile__logout-btn' type="button" onClick={onSignOut}>Выйти из аккаунта</button>
                 </>
               }
             </div>

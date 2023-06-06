@@ -3,30 +3,32 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList({ moviesItems, isSaved }) {
+function MoviesCardList({ moviesItems, isSaved, isLoadingApi }) {
   return (
     <section className='movies-card-list'>
       <div className='movies-card-list__container'>
-        {moviesItems
+        {!isLoadingApi
           ?
-          <ul className='movies-card-list__items'>
-            {
-              moviesItems.map(card => (
-                <li key={card.id}>
-                  <MoviesCard
-                    title={card.title}
-                    imgLink={card.imgLink}
-                    isSaved={isSaved}
-                    isLike={card.isLike}
-                  />
-                </li>))
-            }
-          </ul>
+          <>
+            <ul className='movies-card-list__items'>
+              {
+                moviesItems.map(movie => (
+                  <li key={movie.id}>
+                    <MoviesCard
+                      title={movie.nameRU}
+                      imgLink={`https://api.nomoreparties.co${movie.image.url}`}
+                      isSaved={isSaved}
+                      isLike={movie.isLike}
+                      duration={movie.duration}
+                    />
+                  </li>))
+              }
+            </ul>
+            <button className='movies-card-list__btn-more'>ещё</button>
+          </>
+
           : <Preloader />
         }
-
-
-        <button className='movies-card-list__btn-more'>ещё</button>
       </div>
     </section>
   );

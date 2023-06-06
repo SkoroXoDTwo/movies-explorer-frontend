@@ -1,9 +1,8 @@
-import { Link, useNavigate, useLocation, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './Login.css';
 
 const Login = ({ handleLogin, isLoggedIn }) => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formValue, setFormValue] = useState({
@@ -13,14 +12,9 @@ const Login = ({ handleLogin, isLoggedIn }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const { from } = location.state || { from: { pathname: "/movies" } };
-      navigate(from, { replace: true });
+      navigate("/movies");
     }
-
-    // if (isLoggedIn) {
-    //   navigate("/movies");
-    // }
-  }, [isLoggedIn, navigate, location]);
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

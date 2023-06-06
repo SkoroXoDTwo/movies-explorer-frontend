@@ -12,7 +12,7 @@ import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-import api from '../../utils/Api';
+import mainApi from '../../utils/MainApi';
 
 const App = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const App = () => {
     const jwt = localStorage.getItem("jwt");
 
     if (jwt) {
-      api
+      mainApi
         .checkToken(jwt)
         .then((res) => {
           setIsLoggedIn(true);
@@ -35,7 +35,7 @@ const App = () => {
   }, [])
 
   const handleRegister = ({ password, email, name }) => {
-    api
+    mainApi
       .postRegister(password, email, name)
       .then((_) => {
         setIsLoggedIn(true);
@@ -50,7 +50,7 @@ const App = () => {
   };
 
   const handleLogin = ({ password, email }) => {
-    api
+    mainApi
       .postLogin(password, email)
       .then((data) => {
         setIsLoggedIn(true);
@@ -65,13 +65,15 @@ const App = () => {
       });
   };
 
-  console.log('отрисовка')
+  const handleSignOut = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    navigate("/signin");
+  };
 
   return (
     <div className="page">
       <Routes>
-
-
         <Route
           path="/movies"
           element={
@@ -95,12 +97,13 @@ const App = () => {
           element={
             <ProtectedRoute
               Component={Profile}
-              isLoggedIn={false}
+              isLoggedIn={isLoggedIn}
+              onSignOut={handleSignOut}
             />
           }
         />
 
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
         <Route path="/signin" element={<Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />} />
         <Route path="/signup" element={<Register handleRegister={handleRegister} isLoggedIn={isLoggedIn} />} />
         <Route path="/*" element={<PageNotFound />} />

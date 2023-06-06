@@ -1,4 +1,4 @@
-class Api {
+class MainApi {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
@@ -13,7 +13,6 @@ class Api {
   }
 
   postRegister(password, email, name) {
-    console.log(password, email, name)
     return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
       headers: this._headers,
@@ -47,11 +46,11 @@ class Api {
   }
 }
 
-const api = new Api({
+const mainApi = new MainApi({
   baseUrl: "https://api.skoroxod.nomoredomains.monster",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-export default api;
+export default mainApi;
