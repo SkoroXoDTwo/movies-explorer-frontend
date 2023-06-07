@@ -1,41 +1,42 @@
 import './Movies.css';
+import { useEffect, useState } from 'react';
 
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
-
-import { moviesItems } from '../../data/moviesData';
-import { useEffect, useState } from 'react';
+import Preloader from '../Preloader/Preloader';
 import MessageContainer from '../MessageContainer/MessageContainer';
 import moviesApi from '../../utils/MoviesApi';
 
 const Movies = () => {
-  const localStorageItemFilteredMovies = JSON.parse(localStorage.getItem('filtered-movies'));
+  const localStorageItemFilteredMovies = JSON.parse(localStorage.getItem('filtered-movies')) || '';
+  const localStorageItemMoviesSearchValue = JSON.parse(localStorage.getItem('movies-search-value')) || '';
+  const localStorageItemMovies = JSON.parse(localStorage.getItem('movies'));
 
-  const [cards, setCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
+  const isApiDataUploaded = localStorageItemMovies !== null;
+
+  const [cards, setCards] = useState(localStorageItemMovies);
+  const [filteredCards, setFilteredCards] = useState(localStorageItemFilteredMovies);
   const [isLoadingApi, setIsLoadingApi] = useState(false);
   const [errorApi, setErrorApi] = useState(false);
 
-  console.log(filteredCards.length)
+  const handleSearch = (e, value) => {
+    e.preventDefault();
 
-  useEffect(() => {
+    let filteredCardsArray = [];
 
-    const localStorageItemMovies = JSON.parse(localStorage.getItem('movies'));
+    if (!localStorageItemMovies) {
+      setIsLoadingApi(true);
 
-    if(localStorageItemFilteredMovies) {
-      setFilteredCards(localStorageItemFilteredMovies);
-    }
-
-    if (localStorageItemMovies) {
-      setCards(localStorageItemMovies);
-    }
-    else {
       moviesApi.getMovies()
-        .then((data) => {
-          localStorage.setItem('movies', JSON.stringify(data));
-          setCards(data);
+        .then((cards) => {
+          filteredCardsArray = cards.filter(card => card.nameRU.toLowerCase().includes(value.toLowerCase()));
+          localStorage.setItem('filtered-movies', JSON.stringify(filteredCardsArray));
+          setFilteredCards(filteredCardsArray);
+
+          localStorage.setItem('movies', JSON.stringify(cards));
+          setCards(cards);
         })
         .catch((err) => {
           console.log(err);
@@ -44,25 +45,30 @@ const Movies = () => {
           setIsLoadingApi(false);
         });
     }
-  }, [])
+    else {
+      filteredCardsArray = cards.filter(card => card.nameRU.toLowerCase().includes(value.toLowerCase()));
+      localStorage.setItem('filtered-movies', JSON.stringify(filteredCardsArray));
+      setFilteredCards(filteredCardsArray);
+      console.log(cards)
+    }
 
-  const handleSearch = (e, value) => {
-    e.preventDefault();
-    const filteredCardsArray = cards.filter(card => card.nameRU.toLowerCase().includes(value.toLowerCase()));
-
-    localStorage.setItem('filtered-movies', JSON.stringify(filteredCardsArray));
-    setFilteredCards(filteredCardsArray);
+    localStorage.setItem('movies-search-value', JSON.stringify(value));
   }
 
   return (
     <>
       <Header isAuth={true} backgroundColor="#202020" />
       <main>
-        <SearchForm onSearch={handleSearch} />
+        <SearchForm onSearch={handleSearch} valueInit={localStorageItemMoviesSearchValue} />
 
-        {localStorageItemFilteredMovies && localStorageItemFilteredMovies.length !== 0
-          ? <MoviesCardList moviesItems={filteredCards} isSaved={false} isLoadingApi={isLoadingApi} />
-          : <MessageContainer message="Введите запрос в поле поиска" />
+        {
+          isLoadingApi
+            ? <Preloader />
+            : !isApiDataUploaded
+              ? <MessageContainer message="Введите запрос в поле поиска" />
+              : filteredCards.length !== 0
+                ? <MoviesCardList moviesItems={filteredCards} />
+                : <MessageContainer message="Ничего не найдено" />
         }
       </main>
       <Footer />

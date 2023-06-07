@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './SearchForm.css';
 
-function SearchForm({ onSearch }) {
-  const [searchValue, setSearchValue] = useState('');
+function SearchForm({ onSearch, valueInit }) {
+  const [searchValue, setSearchValue] = useState(valueInit);
   const [isActiveToggleBtn, setIsActiveToggleBtn] = useState(false)
   const [isInputFocus, setIsInputFocus] = useState(false);
 
@@ -28,6 +28,7 @@ function SearchForm({ onSearch }) {
             <button
               className={`search-form__toggle-btn ${isActiveToggleBtn ? 'search-form__toggle-btn_active' : ''}`}
               onClick={() => setIsActiveToggleBtn(!isActiveToggleBtn)}
+              type='button'
             />
             <p className='search-form__toggle-text'>Короткометражки</p>
           </div>
