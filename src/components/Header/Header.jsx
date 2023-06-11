@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 
-function Header({ isAuth = false, backgroundColor }) {
+function Header({ isAuth, backgroundColor }) {
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
 
   return (

@@ -3,7 +3,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { useState, useEffect } from 'react';
 
-const MoviesCardList = ({ moviesItems, isSaved, isLoadingApi }) => {
+const MoviesCardList = ({ moviesItems, isSaved }) => {
   const [countAdditionalCards, setMaxCountCards] = useState(0);
   const [initCountCards, setInitCountCards] = useState(0);
   const [factor, setFactor] = useState(0);
@@ -58,6 +58,7 @@ const MoviesCardList = ({ moviesItems, isSaved, isLoadingApi }) => {
                     isSaved={isSaved}
                     isLike={movie.isLike}
                     duration={movie.duration}
+                    data={movie}
                   />
                 </li>))
             }

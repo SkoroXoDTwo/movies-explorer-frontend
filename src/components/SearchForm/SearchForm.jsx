@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import './SearchForm.css';
 
-function SearchForm({ onSearch, valueInit }) {
-  const [searchValue, setSearchValue] = useState(valueInit);
-  const [isActiveToggleBtn, setIsActiveToggleBtn] = useState(false)
+const SearchForm = ({ onSearch, value, isShotModeActive, setIsShotModeActive, setValue }) => {
   const [isInputFocus, setIsInputFocus] = useState(false);
 
   return (
     <section className='search-form'>
-      <form className='search-form__container' onSubmit={(e) => onSearch(e, searchValue)}>
+      <form className='search-form__container' onSubmit={(e) => onSearch(e)}>
         <div className={`search-form__row ${isInputFocus ? 'search-form__row_focus' : ''}`}>
           <div className='search-form__input-container'>
             <div className='search-form__input-row'>
@@ -18,16 +16,16 @@ function SearchForm({ onSearch, valueInit }) {
                 placeholder='Фильм'
                 onFocus={() => { setIsInputFocus(true) }}
                 onBlur={() => { setIsInputFocus(false) }}
-                value={searchValue}
-                onChange={(e) => { setSearchValue(e.target.value) }}
+                value={value}
+                onChange={(e) => { setValue(e.target.value) }}
               />
               <button className='search-form__input-btn' type='submit' />
             </div>
           </div>
           <div className='search-form__toggle-container'>
             <button
-              className={`search-form__toggle-btn ${isActiveToggleBtn ? 'search-form__toggle-btn_active' : ''}`}
-              onClick={() => setIsActiveToggleBtn(!isActiveToggleBtn)}
+              className={`search-form__toggle-btn ${isShotModeActive ? 'search-form__toggle-btn_active' : ''}`}
+              onClick={() => setIsShotModeActive(!isShotModeActive)}
               type='button'
             />
             <p className='search-form__toggle-text'>Короткометражки</p>

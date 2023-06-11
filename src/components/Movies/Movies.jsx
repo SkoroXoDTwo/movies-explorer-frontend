@@ -10,65 +10,90 @@ import MessageContainer from '../MessageContainer/MessageContainer';
 import moviesApi from '../../utils/MoviesApi';
 
 const Movies = () => {
-  const localStorageItemFilteredMovies = JSON.parse(localStorage.getItem('filtered-movies')) || '';
-  const localStorageItemMoviesSearchValue = JSON.parse(localStorage.getItem('movies-search-value')) || '';
-  const localStorageItemMovies = JSON.parse(localStorage.getItem('movies'));
-
-  const isApiDataUploaded = localStorageItemMovies !== null;
-
-  const [cards, setCards] = useState(localStorageItemMovies);
-  const [filteredCards, setFilteredCards] = useState(localStorageItemFilteredMovies);
+  const [cards, setCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
   const [isLoadingApi, setIsLoadingApi] = useState(false);
-  const [errorApi, setErrorApi] = useState(false);
+  const [isApiDataUploaded, setIsApiDataUploaded] = useState(false);
+  const [errorApi, setErrorApi] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
+  const [isShotModeActive, setIsShotModeActive] = useState(false);
 
-  const handleSearch = (e, value) => {
+  useEffect(() => {
+    const localStorageIsShotModeActive = JSON.parse(localStorage.getItem('is-shot-mode-active'));
+    const localStorageItemFilteredMovies = JSON.parse(localStorage.getItem('filtered-movies')) || '';
+    const localStorageItemMoviesSearchValue = JSON.parse(localStorage.getItem('movies-search-value')) || '';
+    const localStorageItemMovies = JSON.parse(localStorage.getItem('movies'));
+
+    setCards(localStorageItemMovies);
+    setFilteredCards(localStorageItemFilteredMovies);
+    setSearchValue(localStorageItemMoviesSearchValue);
+    setIsShotModeActive(localStorageIsShotModeActive);
+    setIsApiDataUploaded(localStorageItemMovies !== null)
+  }, []);
+
+  const setFilteredCardsArrayInAllStorage = (cards, searchValue) => {
+    const filteredCardsArray = cards.filter(card => {
+      return card.nameRU.toLowerCase().includes(searchValue.toLowerCase())
+        && (isShotModeActive ? card.duration < 41 : true);
+    });
+
+    localStorage.setItem('filtered-movies', JSON.stringify(filteredCardsArray));
+    setFilteredCards(filteredCardsArray);
+  }
+
+  const apiUploadCards = (searchValue) => {
+    setIsLoadingApi(true);
+
+    moviesApi.getMovies()
+      .then((cards) => {
+        setFilteredCardsArrayInAllStorage(cards, searchValue);
+
+        localStorage.setItem('movies', JSON.stringify(cards));
+        setCards(cards);
+      })
+      .catch((err) => {
+        setErrorApi(err);
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoadingApi(false);
+      });
+  }
+
+  const handleSearch = (e) => {
     e.preventDefault();
 
-    let filteredCardsArray = [];
+    setErrorApi(null);
+    isApiDataUploaded ? setFilteredCardsArrayInAllStorage(cards, searchValue) : apiUploadCards(searchValue);
 
-    if (!localStorageItemMovies) {
-      setIsLoadingApi(true);
-
-      moviesApi.getMovies()
-        .then((cards) => {
-          filteredCardsArray = cards.filter(card => card.nameRU.toLowerCase().includes(value.toLowerCase()));
-          localStorage.setItem('filtered-movies', JSON.stringify(filteredCardsArray));
-          setFilteredCards(filteredCardsArray);
-
-          localStorage.setItem('movies', JSON.stringify(cards));
-          setCards(cards);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoadingApi(false);
-        });
-    }
-    else {
-      filteredCardsArray = cards.filter(card => card.nameRU.toLowerCase().includes(value.toLowerCase()));
-      localStorage.setItem('filtered-movies', JSON.stringify(filteredCardsArray));
-      setFilteredCards(filteredCardsArray);
-      console.log(cards)
-    }
-
-    localStorage.setItem('movies-search-value', JSON.stringify(value));
+    localStorage.setItem('is-shot-mode-active', isShotModeActive);
+    localStorage.setItem('movies-search-value', JSON.stringify(searchValue));
   }
 
   return (
     <>
       <Header isAuth={true} backgroundColor="#202020" />
       <main>
-        <SearchForm onSearch={handleSearch} valueInit={localStorageItemMoviesSearchValue} />
+        <SearchForm
+          onSearch={handleSearch}
+          value={searchValue}
+          isShotModeActive={isShotModeActive}
+          setIsShotModeActive={setIsShotModeActive}
+          setValue={setSearchValue}
+        />
 
         {
-          isLoadingApi
-            ? <Preloader />
-            : !isApiDataUploaded
-              ? <MessageContainer message="Введите запрос в поле поиска" />
-              : filteredCards.length !== 0
-                ? <MoviesCardList moviesItems={filteredCards} />
-                : <MessageContainer message="Ничего не найдено" />
+          errorApi
+            ? <MessageContainer
+              message="Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+            />
+            : (isLoadingApi
+              ? <Preloader />
+              : !isApiDataUploaded
+                ? <MessageContainer message="Введите запрос в поле поиска" />
+                : filteredCards.length !== 0
+                  ? <MoviesCardList moviesItems={filteredCards} />
+                  : <MessageContainer message="Ничего не найдено" />)
         }
       </main>
       <Footer />

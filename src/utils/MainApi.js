@@ -12,6 +12,29 @@ class MainApi {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
+  postMovies({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, jwt }) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "POST",
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${jwt}`
+      },
+      body: JSON.stringify({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        nameRU,
+        nameEN,
+        thumbnail,
+        movieId
+      }),
+    }).then(this._checkResponse);
+  }
+
   postRegister(password, email, name) {
     return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
