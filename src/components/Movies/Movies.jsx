@@ -9,7 +9,7 @@ import Preloader from '../Preloader/Preloader';
 import MessageContainer from '../MessageContainer/MessageContainer';
 import moviesApi from '../../utils/MoviesApi';
 
-const Movies = () => {
+const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [isLoadingApi, setIsLoadingApi] = useState(false);
@@ -47,6 +47,7 @@ const Movies = () => {
     moviesApi.getMovies()
       .then((cards) => {
         setFilteredCardsArrayInAllStorage(cards, searchValue);
+        setIsApiDataUploaded(true);
 
         localStorage.setItem('movies', JSON.stringify(cards));
         setCards(cards);
@@ -92,7 +93,12 @@ const Movies = () => {
               : !isApiDataUploaded
                 ? <MessageContainer message="Введите запрос в поле поиска" />
                 : filteredCards.length !== 0
-                  ? <MoviesCardList moviesItems={filteredCards} />
+                  ? <MoviesCardList
+                    moviesItems={filteredCards}
+                    handlePutLikeCard={handlePutLikeCard}
+                    handleDeleteLikeCard={handleDeleteLikeCard}
+                    savedMovies={savedMovies}
+                  />
                   : <MessageContainer message="Ничего не найдено" />)
         }
       </main>

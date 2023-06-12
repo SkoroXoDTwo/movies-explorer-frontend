@@ -17,6 +17,7 @@ import mainApi from '../../utils/MainApi';
 const App = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -31,6 +32,15 @@ const App = () => {
           console.log(err);
           setIsLoggedIn(false);
         });
+
+      mainApi
+        .getMovies({ jwt })
+        .then((movies) => {
+          setSavedMovies(movies.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
   }, [])
 
@@ -71,6 +81,39 @@ const App = () => {
     navigate("/signin");
   };
 
+  const handlePutLikeCard = (data) => {
+    mainApi.postMovie(
+      {
+        ...data,
+        movieId: data.id,
+        jwt: localStorage.getItem('jwt'),
+        image: `https://api.nomoreparties.co${data.image.url}`,
+        thumbnail: `https://api.nomoreparties.co${data.image.url}`,
+      }
+    )
+      .then((movie) => {
+        setSavedMovies([...savedMovies, movie.data])
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  const handleDeleteLikeCard = (id) => {
+    const savedMovie = savedMovies.find(movie => movie.movieId === id);
+
+    mainApi.deleteMovie({
+      id: savedMovie._id,
+      jwt: localStorage.getItem('jwt'),
+    })
+      .then((deletedMovie) => {
+        setSavedMovies(savedMovies.filter((movie) => movie._id !== deletedMovie.data._id));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
   return (
     <div className="page">
       <Routes>
@@ -80,6 +123,9 @@ const App = () => {
             <ProtectedRoute
               Component={Movies}
               isLoggedIn={isLoggedIn}
+              savedMovies={savedMovies}
+              handlePutLikeCard={handlePutLikeCard}
+              handleDeleteLikeCard={handleDeleteLikeCard}
             />
           }
         />

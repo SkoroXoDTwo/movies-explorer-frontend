@@ -12,7 +12,17 @@ class MainApi {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  postMovies({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, jwt }) {
+  getMovies({ jwt }) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "GET",
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${jwt}`
+      },
+    }).then(this._checkResponse);
+  }
+
+  postMovie({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, jwt }) {
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
       headers: {
@@ -32,6 +42,16 @@ class MainApi {
         thumbnail,
         movieId
       }),
+    }).then(this._checkResponse);
+  }
+
+  deleteMovie({ id, jwt }) {
+    return fetch(`${this._baseUrl}/movies/${id}`, {
+      method: "DELETE",
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${jwt}`
+      },
     }).then(this._checkResponse);
   }
 

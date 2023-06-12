@@ -2,35 +2,13 @@ import './MoviesCard.css';
 import mainApi from '../../utils/MainApi';
 import { useState } from 'react';
 
-const MoviesCard = ({ title, imgLink, isSaved, isLike = false, duration, data }) => {
+const MoviesCard = ({ title, imgLink, isSaved, isLike, duration, data, onPutLike, onDeleteLikeCard }) => {
   const durationHour = Math.floor(duration / 60);
   const durationMinute = duration % 60;
   const durationString = `${durationHour ? durationHour + 'ч' : ''}${durationMinute ? durationMinute + 'м' : ''}`
-  const [isLikeState, setIsLikeState] = useState(isLike);
-  console.log(data);
 
-  const handleLike = () => {
-    if (isLikeState) {
-
-    }
-    else {
-      mainApi.postMovies(
-        {
-          ...data,
-          movieId: data.id,
-          jwt: localStorage.getItem('jwt'),
-          image: `https://api.nomoreparties.co${data.image.url}`,
-          thumbnail: `https://api.nomoreparties.co${data.image.url}`,
-        }
-      )
-        .then(() => {
-          setIsLikeState(true);
-          console.log('успешно')
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
+  const toggleLikeCard = () => {
+    isLike ? onDeleteLikeCard(data.id) : onPutLike(data);
   }
 
   return (
@@ -46,8 +24,8 @@ const MoviesCard = ({ title, imgLink, isSaved, isLike = false, duration, data })
             <button className="movies-card__btn-delete" />
             :
             <div
-              className={`movies-card__indicator ${isLikeState ? 'movies-card__indicator_active' : ''}`}
-              onClick={handleLike}
+              className={`movies-card__indicator ${isLike ? 'movies-card__indicator_active' : ''}`}
+              onClick={toggleLikeCard}
             />
           }
         </div>
