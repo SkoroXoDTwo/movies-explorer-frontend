@@ -3,13 +3,21 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { useState, useEffect } from 'react';
 
-const MoviesCardList = ({ moviesItems, isSaved, handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
+const MoviesCardList = ({
+  moviesItems,
+  isSavedPageModeActive,
+  handlePutLikeCard = null,
+  handleDeleteLikeCard = null,
+  savedMovies,
+  isHaveBtnMore
+}) => {
   const [countAdditionalCards, setMaxCountCards] = useState(0);
   const [initCountCards, setInitCountCards] = useState(0);
   const [factor, setFactor] = useState(0);
 
   const countRow = Math.ceil((initCountCards + countAdditionalCards) / factor);
   const maxCountCards = countRow * factor;
+  const moviesItemsRendered = isHaveBtnMore ? moviesItems.slice(0, maxCountCards) : moviesItems;
 
   useEffect(() => {
     const handleResizeListener = () => {
@@ -54,14 +62,11 @@ const MoviesCardList = ({ moviesItems, isSaved, handlePutLikeCard, handleDeleteL
         <>
           <ul className='movies-card-list__items'>
             {
-              moviesItems.slice(0, maxCountCards).map(movie => (
-                <li key={movie.id}>
+              moviesItemsRendered.map(movie => (
+                <li key={isSavedPageModeActive ? movie._id : movie.id}>
                   <MoviesCard
-                    title={movie.nameRU}
-                    imgLink={`https://api.nomoreparties.co${movie.image.url}`}
-                    isSaved={isSaved}
-                    isLike={isLikedCard(movie.id)}
-                    duration={movie.duration}
+                    isSavedPageModeActive={isSavedPageModeActive}
+                    isLiked={isLikedCard(movie.id)}
                     data={movie}
                     onPutLike={handlePutLikeCard}
                     onDeleteLikeCard={handleDeleteLikeCard}
@@ -69,8 +74,15 @@ const MoviesCardList = ({ moviesItems, isSaved, handlePutLikeCard, handleDeleteL
                 </li>))
             }
           </ul>
-          {moviesItems.length > maxCountCards &&
-            <button className='movies-card-list__btn-more' onClick={() => { setMaxCountCards(countAdditionalCards + factor) }}>ещё</button>
+          {
+            isHaveBtnMore &&
+            moviesItems.length > maxCountCards &&
+            <button
+              className='movies-card-list__btn-more'
+              onClick={() => { setMaxCountCards(countAdditionalCards + factor) }}
+            >
+              ещё
+            </button>
           }
         </>
       </div>

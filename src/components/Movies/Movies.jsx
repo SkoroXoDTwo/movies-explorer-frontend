@@ -77,9 +77,9 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
       <main>
         <SearchForm
           onSearch={handleSearch}
-          value={searchValue}
           isShotModeActive={isShotModeActive}
           setIsShotModeActive={setIsShotModeActive}
+          value={searchValue}
           setValue={setSearchValue}
         />
 
@@ -94,10 +94,12 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
                 ? <MessageContainer message="Введите запрос в поле поиска" />
                 : filteredCards.length !== 0
                   ? <MoviesCardList
+                    isSavedPageModeActive={false}
                     moviesItems={filteredCards}
                     handlePutLikeCard={handlePutLikeCard}
                     handleDeleteLikeCard={handleDeleteLikeCard}
                     savedMovies={savedMovies}
+                    isHaveBtnMore={true}
                   />
                   : <MessageContainer message="Ничего не найдено" />)
         }

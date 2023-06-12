@@ -99,11 +99,11 @@ const App = () => {
       })
   }
 
-  const handleDeleteLikeCard = (id) => {
-    const savedMovie = savedMovies.find(movie => movie.movieId === id);
+  const handleDeleteLikeCard = (id, isSavedPageModeAcitve) => {
+    const savedMovieId = isSavedPageModeAcitve ? id : savedMovies.find(movie => movie.movieId === id)._id;
 
     mainApi.deleteMovie({
-      id: savedMovie._id,
+      id: savedMovieId,
       jwt: localStorage.getItem('jwt'),
     })
       .then((deletedMovie) => {
@@ -135,6 +135,8 @@ const App = () => {
             <ProtectedRoute
               Component={SavedMovies}
               isLoggedIn={isLoggedIn}
+              moviesItems={savedMovies}
+              handleDeleteLikeCard={handleDeleteLikeCard}
             />
           }
         />

@@ -1,14 +1,21 @@
 import './MoviesCard.css';
-import mainApi from '../../utils/MainApi';
-import { useState } from 'react';
 
-const MoviesCard = ({ title, imgLink, isSaved, isLike, duration, data, onPutLike, onDeleteLikeCard }) => {
-  const durationHour = Math.floor(duration / 60);
-  const durationMinute = duration % 60;
-  const durationString = `${durationHour ? durationHour + 'ч' : ''}${durationMinute ? durationMinute + 'м' : ''}`
+const MoviesCard = ({ data, isSavedPageModeActive, isLiked, onPutLike, onDeleteLikeCard }) => {
+  const title = data.nameRU;
+  const imgLink = isSavedPageModeActive ? data.image : `https://api.nomoreparties.co${data.image.url}`;
+  const duration = data.duration;
+  const moviedId = isSavedPageModeActive ? data._id : data.id;
+
+  const getDurationString = (duration) => {
+    const durationHour = Math.floor(duration / 60);
+    const durationMinute = duration % 60;
+    const durationString = `${durationHour ? durationHour + 'ч' : ''}${durationMinute ? durationMinute + 'м' : ''}`
+
+    return durationString;
+  }
 
   const toggleLikeCard = () => {
-    isLike ? onDeleteLikeCard(data.id) : onPutLike(data);
+    isLiked ? onDeleteLikeCard(moviedId, isSavedPageModeActive) : onPutLike(data);
   }
 
   return (
@@ -19,19 +26,19 @@ const MoviesCard = ({ title, imgLink, isSaved, isLike, duration, data, onPutLike
           <h2 className='movies-card__title'>
             {title}
           </h2>
-          {isSaved
+          {isSavedPageModeActive
             ?
-            <button className="movies-card__btn-delete" />
+            <button className="movies-card__btn-delete" onClick={() => onDeleteLikeCard(moviedId, isSavedPageModeActive)} />
             :
             <div
-              className={`movies-card__indicator ${isLike ? 'movies-card__indicator_active' : ''}`}
+              className={`movies-card__indicator ${isLiked ? 'movies-card__indicator_active' : ''}`}
               onClick={toggleLikeCard}
             />
           }
         </div>
         <div className='movies-card__row'>
           <p className='movies-card__time'>
-            {durationString}
+            {getDurationString(duration)}
           </p>
         </div>
       </div>
