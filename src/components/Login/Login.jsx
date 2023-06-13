@@ -1,11 +1,13 @@
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-const Login = ({ handleLogin, isLoggedIn, errorsApi }) => {
+const Login = ({ handleLogin, isLoggedIn }) => {
   const navigate = useNavigate();
+
+  const [errorApi, setErrorApi] = useState({});
 
   const { values, handleChange, errors, isValid } = useFormWithValidation();
 
@@ -17,7 +19,7 @@ const Login = ({ handleLogin, isLoggedIn, errorsApi }) => {
 
   const onLogin = (e) => {
     e.preventDefault();
-    handleLogin({ password: values.password, email: values.email })
+    handleLogin({ password: values.password, email: values.email, setErrorApi })
   }
 
   return (
@@ -67,8 +69,8 @@ const Login = ({ handleLogin, isLoggedIn, errorsApi }) => {
             </div>
           </div>
           <div className='login__btns'>
-            <p className='login__err-message'>
-              {errorsApi.message}
+            <p className={`login__err-message ${errorApi.message ? 'login__err-message_visible' : ''}`}>
+              {errorApi.message}
             </p>
             <button
               className={`login__btn-auth ${!isValid ? 'login__btn-auth_disabled' : ''}`}

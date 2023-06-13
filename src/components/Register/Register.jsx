@@ -1,15 +1,15 @@
+import './Register.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import './Register.css';
 
-function Register({ handleRegister, isLoggedIn }) {
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+
+const Register = ({ handleRegister, isLoggedIn }) => {
   const navigate = useNavigate();
 
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-    name: ""
-  });
+  const [errorApi, setErrorApi] = useState({});
+
+  const { values, handleChange, errors, isValid } = useFormWithValidation();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -17,18 +17,9 @@ function Register({ handleRegister, isLoggedIn }) {
     }
   }, [isLoggedIn, navigate]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
-  };
-
   const onRegister = (e) => {
     e.preventDefault();
-    handleRegister({ password: formValue.password, email: formValue.email, name: formValue.name })
+    handleRegister({ password: values.password, email: values.email, name: values.name, setErrorApi })
   }
 
   return (
@@ -51,12 +42,14 @@ function Register({ handleRegister, isLoggedIn }) {
                 name="name"
                 placeholder='Введите имя'
                 onChange={handleChange}
-                value={formValue.name}
+                value={values.name}
                 minLength="2"
                 maxLength="30"
                 required
               />
-              <p className='register__input-error'>Что-то пошло не так...</p>
+              <p className={`register__input-error ${errors.name ? 'register__input-error_visible' : ''}`}>
+                {errors.name}
+              </p>
             </div>
             <div className='register__input-container'>
               <p className='register__input-title'>
@@ -68,10 +61,12 @@ function Register({ handleRegister, isLoggedIn }) {
                 name="email"
                 placeholder='Введите email'
                 onChange={handleChange}
-                value={formValue.email}
+                value={values.email}
                 required
               />
-              <p className='register__input-error'>Что-то пошло не так...</p>
+              <p className={`register__input-error ${errors.email ? 'register__input-error_visible' : ''}`}>
+                {errors.email}
+              </p>
             </div>
             <div className='register__input-container'>
               <p className='register__input-title'>
@@ -83,14 +78,24 @@ function Register({ handleRegister, isLoggedIn }) {
                 name="password"
                 placeholder='Введите пароль'
                 onChange={handleChange}
-                value={formValue.password}
+                value={values.password}
                 required
               />
-              <p className='register__input-error'>Что-то пошло не так...</p>
+              <p className={`register__input-error ${errors.password ? 'register__input-error_visible' : ''}`}>
+                {errors.password}
+              </p>
             </div>
           </div>
           <div className='register__btns'>
-            <button className='register__btn-auth'>Зарегистрироваться</button>
+            <p className={`register__err-message ${errorApi.message ? 'register__err-message_visible' : ''}`}>
+              {errorApi.message}
+            </p>
+            <button
+              className={`register__btn-auth ${!isValid ? 'register__btn-auth_disabled' : ''}`}
+              disabled={!isValid}
+            >
+              Зарегистрироваться
+            </button>
             <div className='register__footer-link-container'>
               <p className='register__footer-link-text'>
                 Уже зарегистрированы?

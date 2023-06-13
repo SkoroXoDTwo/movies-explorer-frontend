@@ -189,6 +189,14 @@
   line-height: 13px;
   text-align: center;
   color: #EE3465;
+  opacity: 0;
+  visibility: none;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.login__err-message_visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .login__btn-auth {

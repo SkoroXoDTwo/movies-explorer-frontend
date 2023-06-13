@@ -5,6 +5,9 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
+import MessageContainer from '../MessageContainer/MessageContainer';
+
+import { SAVED_MOVIES_NOT_DATA } from '../../utils/constants';
 
 const SavedMovies = ({ moviesItems, handleDeleteLikeCard }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -42,13 +45,18 @@ const SavedMovies = ({ moviesItems, handleDeleteLikeCard }) => {
           value={searchValue}
           setValue={setSearchValue}
         />
-        <MoviesCardList
-          moviesItems={filteredCards}
-          isSavedPageModeActive={true}
-          savedMovies={moviesItems}
-          handleDeleteLikeCard={handleDeleteLikeCard}
-          isHaveBtnMore={false}
-        />
+        {
+          filteredCards.length === 0 ?
+            <MessageContainer message={SAVED_MOVIES_NOT_DATA} /> :
+            <MoviesCardList
+              moviesItems={filteredCards}
+              isSavedPageModeActive={true}
+              savedMovies={moviesItems}
+              handleDeleteLikeCard={handleDeleteLikeCard}
+              isHaveBtnMore={false}
+            />
+        }
+
       </main>
       <Footer />
     </>

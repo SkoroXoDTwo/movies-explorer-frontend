@@ -5,6 +5,9 @@ const MoviesCard = ({ data, isSavedPageModeActive, isLiked, onPutLike, onDeleteL
   const imgLink = isSavedPageModeActive ? data.image : `https://api.nomoreparties.co${data.image.url}`;
   const duration = data.duration;
   const moviedId = isSavedPageModeActive ? data._id : data.id;
+  const trailerLink = data.trailerLink;
+
+  console.log(data);
 
   const getDurationString = (duration) => {
     const durationHour = Math.floor(duration / 60);
@@ -20,7 +23,9 @@ const MoviesCard = ({ data, isSavedPageModeActive, isLiked, onPutLike, onDeleteL
 
   return (
     <article className='movies-card'>
-      <img className='movies-card__img' src={imgLink} alt={title} />
+      <a className='movies-card__link' href={trailerLink} target="_blank" rel="noreferrer">
+        <img className='movies-card__img' src={imgLink} alt={title} />
+      </a>
       <div className='movies-card__cover'>
         <div className='movies-card__row'>
           <h2 className='movies-card__title'>
@@ -42,6 +47,7 @@ const MoviesCard = ({ data, isSavedPageModeActive, isLiked, onPutLike, onDeleteL
           </p>
         </div>
       </div>
+
     </article>
   );
 }

@@ -7,7 +7,10 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Preloader from '../Preloader/Preloader';
 import MessageContainer from '../MessageContainer/MessageContainer';
+
 import moviesApi from '../../utils/MoviesApi';
+
+import { ENTER_VALUE_IN_SEARCH, MOVIES_NOT_DATA, SERVER_MOVIES_ERROR } from '../../utils/constants';
 
 const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
   const [cards, setCards] = useState([]);
@@ -19,8 +22,8 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
   const [isShotModeActive, setIsShotModeActive] = useState(false);
 
   useEffect(() => {
-    const localStorageIsShotModeActive = JSON.parse(localStorage.getItem('is-shot-mode-active'));
-    const localStorageItemFilteredMovies = JSON.parse(localStorage.getItem('filtered-movies')) || '';
+    const localStorageIsShotModeActive = JSON.parse(localStorage.getItem('is-shot-mode-active')) || false;
+    const localStorageItemFilteredMovies = JSON.parse(localStorage.getItem('filtered-movies')) || [];
     const localStorageItemMoviesSearchValue = JSON.parse(localStorage.getItem('movies-search-value')) || '';
     const localStorageItemMovies = JSON.parse(localStorage.getItem('movies'));
 
@@ -31,7 +34,7 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
     setIsApiDataUploaded(localStorageItemMovies !== null)
   }, []);
 
-  const setFilteredCardsArrayInAllStorage = (cards, searchValue) => {
+  const setFilteredCardsArrayInLocalStorage = (cards, searchValue) => {
     const filteredCardsArray = cards.filter(card => {
       return card.nameRU.toLowerCase().includes(searchValue.toLowerCase())
         && (isShotModeActive ? card.duration < 41 : true);
@@ -46,7 +49,7 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
 
     moviesApi.getMovies()
       .then((cards) => {
-        setFilteredCardsArrayInAllStorage(cards, searchValue);
+        setFilteredCardsArrayInLocalStorage(cards, searchValue);
         setIsApiDataUploaded(true);
 
         localStorage.setItem('movies', JSON.stringify(cards));
@@ -65,7 +68,7 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
     e.preventDefault();
 
     setErrorApi(null);
-    isApiDataUploaded ? setFilteredCardsArrayInAllStorage(cards, searchValue) : apiUploadCards(searchValue);
+    isApiDataUploaded ? setFilteredCardsArrayInLocalStorage(cards, searchValue) : apiUploadCards(searchValue);
 
     localStorage.setItem('is-shot-mode-active', isShotModeActive);
     localStorage.setItem('movies-search-value', JSON.stringify(searchValue));
@@ -86,12 +89,12 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
         {
           errorApi
             ? <MessageContainer
-              message="Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+              message={SERVER_MOVIES_ERROR}
             />
             : (isLoadingApi
               ? <Preloader />
               : !isApiDataUploaded
-                ? <MessageContainer message="Введите запрос в поле поиска" />
+                ? <MessageContainer message={ENTER_VALUE_IN_SEARCH} />
                 : filteredCards.length !== 0
                   ? <MoviesCardList
                     isSavedPageModeActive={false}
@@ -101,7 +104,7 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
                     savedMovies={savedMovies}
                     isHaveBtnMore={true}
                   />
-                  : <MessageContainer message="Ничего не найдено" />)
+                  : <MessageContainer message={MOVIES_NOT_DATA} />)
         }
       </main>
       <Footer />

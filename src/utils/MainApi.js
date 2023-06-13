@@ -22,7 +22,20 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  postMovie({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, jwt }) {
+  postMovie({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    jwt
+  }) {
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
       headers: {
@@ -73,6 +86,20 @@ class MainApi {
       headers: this._headers,
       body: JSON.stringify({
         password,
+        email
+      }),
+    }).then(this._checkResponse);
+  }
+
+  patchProfile(name, email, jwt) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${jwt}`
+      },
+      body: JSON.stringify({
+        name,
         email
       }),
     }).then(this._checkResponse);

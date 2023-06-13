@@ -1,18 +1,42 @@
 import './Profile.css';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import Header from '../Header/Header';
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
-function Profile({ onSignOut }) {
-  const { values, handleChange, resetForm, errors, isValid } =
+const Profile = ({ onSignOut, onEditProfile }) => {
+  const { values, handleChange, errors, isValid, setValues } =
     useFormWithValidation();
 
   const [isEditModeActivated, setIsEditModeActivated] = useState(false);
   const [isInputFocus, setIsInputFocus] = useState(false);
+  const [infoMessage, setInfoMessage] = useState('');
+  const [errorApi, setErrorApi] = useState({});
+
   const currentUser = useContext(CurrentUserContext);
+
+  const isValueEdited = currentUser.name !== values.name || currentUser.email !== values.email;
+
+  console.log(isValueEdited)
+
+  useEffect(() => {
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    })
+  }, [])
+
+  const handleSubmit = () => {
+    setIsEditModeActivated(false)
+    onEditProfile(values.name, values.email, setInfoMessage, setErrorApi);
+  }
+
+  const onClickBtnEditModeActive = () => {
+    setInfoMessage('');
+    setIsEditModeActivated(true)
+  }
 
   return (
     <>
@@ -38,10 +62,12 @@ function Profile({ onSignOut }) {
                   maxLength="30"
                   name="name"
                   onChange={handleChange}
-                  value={values.name || ''}
+                  value={values.name || currentUser.name}
                   required
                 />
-                <span className='profile__input-focus-border' />
+                <p className={`profile__input-err ${errors.name ? 'profile__input-err_visible' : ''}`}>
+                  {errors.name}
+                </p>
               </div>
               <div className='profile__input-container'>
                 <p className='profile__input-title'>
@@ -59,6 +85,11 @@ function Profile({ onSignOut }) {
                   value={values.email || ''}
                   required
                 />
+                <p
+                  className={`profile__input-err profile__input-err_bottom ${errors.email ? 'profile__input-err_visible' : ''}`}
+                >
+                  {errors.email}
+                </p>
               </div>
             </div>
             <div className='profile__btns-container'>
@@ -66,18 +97,23 @@ function Profile({ onSignOut }) {
                 ?
                 <>
                   <button
-                    className='profile__save-btn'
-                    onClick={() => setIsEditModeActivated(false)}
+                    className={`profile__save-btn ${!isValid || !isValueEdited ? 'profile__save-btn_disabled' : ''}`}
+                    onClick={handleSubmit}
                     type="button"
-                    disabled={!isValid}
+                    disabled={!isValid || !isValueEdited}
                   >
                     Сохранить
                   </button>
-                  <p className='profile__error-msg'>При обновлении профиля произошла ошибка.</p>
                 </>
                 :
                 <>
-                  <button className='profile__edit-btn' onClick={() => setIsEditModeActivated(true)} type="button">
+                  <p className={`profile__error-msg ${errorApi.message ? 'profile__error-msg_visible' : ''}`}>
+                    {errorApi.message}
+                  </p>
+                  <p className={`profile__info-message ${infoMessage ? 'profile__info-message_visible' : ''}`}>
+                    {infoMessage}
+                  </p>
+                  <button className='profile__edit-btn' onClick={onClickBtnEditModeActive} type="button">
                     Редактировать
                   </button>
                   <button className='profile__logout-btn' type="button" onClick={onSignOut}>Выйти из аккаунта</button>

@@ -14,32 +14,22 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
-import { DEFAULT_ERROR, LOGIN_ERRORS_OBJ } from '../../utils/constants';
+import { DEFAULT_ERROR, EDIT_PROFILE_ERRORS_OBJ, LOGIN_ERRORS_OBJ, REGISTER_ERRORS_OBJ } from '../../utils/constants';
 
 const App = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({
-    name: "Загрузка..."
+    name: '',
+    email: ''
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [errorApiLogin, setErrorApiLogin] = useState([])
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
 
     if (jwt) {
-      mainApi
-        .checkToken(jwt)
-        .then(({ data }) => {
-          setCurrentUser({ name: data.name });
-          setIsLoggedIn(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          setIsLoggedIn(false);
-        });
-
+      checkToken(jwt);
       mainApi
         .getMovies({ jwt })
         .then((movies) => {
@@ -51,29 +41,50 @@ const App = () => {
     }
   }, [])
 
-  const handleRegister = ({ password, email, name }) => {
+  const checkToken = (jwt) => {
+    mainApi
+      .checkToken(jwt)
+      .then(({ data }) => {
+        setCurrentUser({ name: data.name, email: data.email });
+        setIsLoggedIn(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoggedIn(false);
+      });
+
+  }
+
+  const handleRegister = ({ password, email, name, setErrorApi }) => {
     mainApi
       .postRegister(password, email, name)
       .then(({ data }) => {
         setIsLoggedIn(true);
-        setCurrentUser({ name: data.name });
+        setCurrentUser({ name: data.name, email: data.email });
         navigate('/movies');
       })
       .catch((err) => {
+        setErrorApi({
+          message: REGISTER_ERRORS_OBJ[err] ? REGISTER_ERRORS_OBJ[err] : DEFAULT_ERROR
+        });
         console.log(err);
       })
   };
 
-  const handleLogin = ({ password, email }) => {
+  const handleLogin = ({ password, email, setErrorApi }) => {
     mainApi
       .postLogin(password, email)
       .then((data) => {
+        checkToken(data.token)
         setIsLoggedIn(true);
-        navigate('/movies');
         localStorage.setItem('jwt', data.token)
+        navigate('/movies');
       })
       .catch((err) => {
-        setErrorApiLogin({ message: LOGIN_ERRORS_OBJ[err] ? LOGIN_ERRORS_OBJ[err] : DEFAULT_ERROR });
+        setErrorApi({
+          message: LOGIN_ERRORS_OBJ[err] ? LOGIN_ERRORS_OBJ[err] : DEFAULT_ERROR
+        });
+
         console.log(err);
       })
   };
@@ -81,8 +92,26 @@ const App = () => {
   const handleSignOut = () => {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
-    navigate("/signin");
+    navigate("/");
   };
+
+  const handleEditProfile = (name, email, setInfoMessage, setErrorApi) => {
+    const jwt = localStorage.getItem("jwt");
+
+    mainApi
+      .patchProfile(name, email, jwt)
+      .then(({ data }) => {
+        setCurrentUser({ name: data.name, email: data.email });
+        setInfoMessage('Данные успешно обновлены!')
+      })
+      .catch((err) => {
+        setErrorApi({
+          message: EDIT_PROFILE_ERRORS_OBJ[err] ? EDIT_PROFILE_ERRORS_OBJ[err] : DEFAULT_ERROR
+        });
+
+        console.log(err);
+      });
+  }
 
   const handlePutLikeCard = (data) => {
     mainApi.postMovie(
@@ -152,13 +181,30 @@ const App = () => {
                 Component={Profile}
                 isLoggedIn={isLoggedIn}
                 onSignOut={handleSignOut}
+                onEditProfile={handleEditProfile}
               />
             }
           />
 
           <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
-          <Route path="/signin" element={<Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} errorsApi={errorApiLogin} />} />
-          <Route path="/signup" element={<Register handleRegister={handleRegister} isLoggedIn={isLoggedIn} />} />
+          <Route
+            path="/signin"
+            element={
+              <Login
+                handleLogin={handleLogin}
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Register
+                handleRegister={handleRegister}
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </CurrentUserContext.Provider>
