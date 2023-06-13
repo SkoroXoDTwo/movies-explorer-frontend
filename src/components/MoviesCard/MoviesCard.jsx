@@ -7,8 +7,6 @@ const MoviesCard = ({ data, isSavedPageModeActive, isLiked, onPutLike, onDeleteL
   const moviedId = isSavedPageModeActive ? data._id : data.id;
   const trailerLink = data.trailerLink;
 
-  console.log(data);
-
   const getDurationString = (duration) => {
     const durationHour = Math.floor(duration / 60);
     const durationMinute = duration % 60;

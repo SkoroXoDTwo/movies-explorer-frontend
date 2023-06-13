@@ -58,9 +58,11 @@ const App = () => {
   const handleRegister = ({ password, email, name, setErrorApi }) => {
     mainApi
       .postRegister(password, email, name)
-      .then(({ data }) => {
+      .then(({ data, token }) => {
+        checkToken(token)
         setIsLoggedIn(true);
         setCurrentUser({ name: data.name, email: data.email });
+        localStorage.setItem('jwt', token)
         navigate('/movies');
       })
       .catch((err) => {
