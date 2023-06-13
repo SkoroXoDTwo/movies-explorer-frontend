@@ -95,11 +95,11 @@ const App = () => {
     navigate("/");
   };
 
-  const handleEditProfile = (name, email, setInfoMessage, setErrorApi) => {
+  const handleEditProfile = (data, setInfoMessage, setErrorApi) => {
     const jwt = localStorage.getItem("jwt");
 
     mainApi
-      .patchProfile(name, email, jwt)
+      .patchProfile(data, jwt)
       .then(({ data }) => {
         setCurrentUser({ name: data.name, email: data.email });
         setInfoMessage('Данные успешно обновлены!')

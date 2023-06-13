@@ -91,7 +91,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  patchProfile(name, email, jwt) {
+  patchProfile({ name, email }, jwt) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {

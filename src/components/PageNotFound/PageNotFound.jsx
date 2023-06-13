@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './PageNotFound.css'
 
-function PageNotFound() {
+const PageNotFound = () => {
     const navigate = useNavigate();
 
     return (

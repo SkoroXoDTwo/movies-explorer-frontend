@@ -1,6 +1,6 @@
 import './Promo.css';
 
-function Promo() {
+const Promo = () => {
   return (
     <section className='promo'>
       <div className='promo__container'>

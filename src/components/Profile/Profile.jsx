@@ -17,9 +17,9 @@ const Profile = ({ onSignOut, onEditProfile }) => {
 
   const currentUser = useContext(CurrentUserContext);
 
-  const isValueEdited = currentUser.name !== values.name || currentUser.email !== values.email;
-
-  console.log(isValueEdited)
+  const isNameEdited = currentUser.name !== values.name;
+  const isEmailEdited = currentUser.email !== values.email
+  const isValueEdited = isNameEdited || isEmailEdited;
 
   useEffect(() => {
     setValues({
@@ -29,12 +29,22 @@ const Profile = ({ onSignOut, onEditProfile }) => {
   }, [])
 
   const handleSubmit = () => {
+    let data = {};
+
+    if(isNameEdited) {
+      data.name = values.name
+    }
+    if(isEmailEdited) {
+      data.email = values.email
+    }
+
     setIsEditModeActivated(false)
-    onEditProfile(values.name, values.email, setInfoMessage, setErrorApi);
+    onEditProfile(data, setInfoMessage, setErrorApi);
   }
 
   const onClickBtnEditModeActive = () => {
     setInfoMessage('');
+    setErrorApi({});
     setIsEditModeActivated(true)
   }
 
