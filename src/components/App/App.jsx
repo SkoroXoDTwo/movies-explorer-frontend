@@ -12,12 +12,18 @@ import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/MainApi';
+import { DEFAULT_ERROR, LOGIN_ERRORS_OBJ } from '../../utils/constants';
 
 const App = () => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({
+    name: "Загрузка..."
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [errorApiLogin, setErrorApiLogin] = useState([])
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -25,7 +31,8 @@ const App = () => {
     if (jwt) {
       mainApi
         .checkToken(jwt)
-        .then((res) => {
+        .then(({ data }) => {
+          setCurrentUser({ name: data.name });
           setIsLoggedIn(true);
         })
         .catch((err) => {
@@ -47,16 +54,14 @@ const App = () => {
   const handleRegister = ({ password, email, name }) => {
     mainApi
       .postRegister(password, email, name)
-      .then((_) => {
+      .then(({ data }) => {
         setIsLoggedIn(true);
+        setCurrentUser({ name: data.name });
         navigate('/movies');
       })
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {
-
-      });
   };
 
   const handleLogin = ({ password, email }) => {
@@ -68,11 +73,9 @@ const App = () => {
         localStorage.setItem('jwt', data.token)
       })
       .catch((err) => {
+        setErrorApiLogin({ message: LOGIN_ERRORS_OBJ[err] ? LOGIN_ERRORS_OBJ[err] : DEFAULT_ERROR });
         console.log(err);
       })
-      .finally(() => {
-
-      });
   };
 
   const handleSignOut = () => {
@@ -116,46 +119,49 @@ const App = () => {
 
   return (
     <div className="page">
-      <Routes>
-        <Route
-          path="/movies"
-          element={
-            <ProtectedRoute
-              Component={Movies}
-              isLoggedIn={isLoggedIn}
-              savedMovies={savedMovies}
-              handlePutLikeCard={handlePutLikeCard}
-              handleDeleteLikeCard={handleDeleteLikeCard}
-            />
-          }
-        />
-        <Route
-          path="/saved-movies"
-          element={
-            <ProtectedRoute
-              Component={SavedMovies}
-              isLoggedIn={isLoggedIn}
-              moviesItems={savedMovies}
-              handleDeleteLikeCard={handleDeleteLikeCard}
-            />
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute
-              Component={Profile}
-              isLoggedIn={isLoggedIn}
-              onSignOut={handleSignOut}
-            />
-          }
-        />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Routes>
 
-        <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
-        <Route path="/signin" element={<Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />} />
-        <Route path="/signup" element={<Register handleRegister={handleRegister} isLoggedIn={isLoggedIn} />} />
-        <Route path="/*" element={<PageNotFound />} />
-      </Routes>
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute
+                Component={Movies}
+                isLoggedIn={isLoggedIn}
+                savedMovies={savedMovies}
+                handlePutLikeCard={handlePutLikeCard}
+                handleDeleteLikeCard={handleDeleteLikeCard}
+              />
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              <ProtectedRoute
+                Component={SavedMovies}
+                isLoggedIn={isLoggedIn}
+                moviesItems={savedMovies}
+                handleDeleteLikeCard={handleDeleteLikeCard}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                Component={Profile}
+                isLoggedIn={isLoggedIn}
+                onSignOut={handleSignOut}
+              />
+            }
+          />
+
+          <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
+          <Route path="/signin" element={<Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} errorsApi={errorApiLogin} />} />
+          <Route path="/signup" element={<Register handleRegister={handleRegister} isLoggedIn={isLoggedIn} />} />
+          <Route path="/*" element={<PageNotFound />} />
+        </Routes>
+      </CurrentUserContext.Provider>
     </div>
   );
 }

@@ -1,11 +1,18 @@
 import './Profile.css';
+import { useState, useContext } from 'react';
 
 import Header from '../Header/Header';
-import { useState } from 'react';
+
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Profile({ onSignOut }) {
+  const { values, handleChange, resetForm, errors, isValid } =
+    useFormWithValidation();
+
   const [isEditModeActivated, setIsEditModeActivated] = useState(false);
   const [isInputFocus, setIsInputFocus] = useState(false);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <>
@@ -13,7 +20,7 @@ function Profile({ onSignOut }) {
       <main className='profile'>
         <div className='profile__container'>
           <h1 className='profile__title'>
-            Привет, Виталий!
+            Привет, {currentUser.name}!
           </h1>
           <form className='profile__form'>
             <div className='profile__inputs'>
@@ -29,6 +36,9 @@ function Profile({ onSignOut }) {
                   onBlur={() => { setIsInputFocus(false) }}
                   minLength="2"
                   maxLength="30"
+                  name="name"
+                  onChange={handleChange}
+                  value={values.name || ''}
                   required
                 />
                 <span className='profile__input-focus-border' />
@@ -44,6 +54,9 @@ function Profile({ onSignOut }) {
                   onFocus={() => { setIsInputFocus(true) }}
                   onBlur={() => { setIsInputFocus(false) }}
                   type="email"
+                  name="email"
+                  onChange={handleChange}
+                  value={values.email || ''}
                   required
                 />
               </div>
@@ -52,7 +65,12 @@ function Profile({ onSignOut }) {
               {isEditModeActivated
                 ?
                 <>
-                  <button className='profile__save-btn' onClick={() => setIsEditModeActivated(false)} type="button">
+                  <button
+                    className='profile__save-btn'
+                    onClick={() => setIsEditModeActivated(false)}
+                    type="button"
+                    disabled={!isValid}
+                  >
                     Сохранить
                   </button>
                   <p className='profile__error-msg'>При обновлении профиля произошла ошибка.</p>
