@@ -93,6 +93,7 @@ const Profile = ({ onSignOut, onEditProfile }) => {
                   name="email"
                   onChange={handleChange}
                   value={values.email || ''}
+                  pattern="\S+@\S+\.\S+"
                   required
                 />
                 <p

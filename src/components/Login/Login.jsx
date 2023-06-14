@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+import { PATTERN_EMAIL } from '../../utils/constants';
 
 const Login = ({ handleLogin, isLoggedIn }) => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const Login = ({ handleLogin, isLoggedIn }) => {
                 placeholder='Введите email'
                 onChange={handleChange}
                 value={values.email || ''}
+                pattern="\S+@\S+\.\S+"
                 required
               />
               <p className={`login__input-error ${errors.email && 'login__input-error_visible'}`}>

@@ -42,7 +42,7 @@ const Register = ({ handleRegister, isLoggedIn }) => {
                 name="name"
                 placeholder='Введите имя'
                 onChange={handleChange}
-                value={values.name}
+                value={values.name || ''}
                 minLength="2"
                 maxLength="30"
                 required
@@ -61,7 +61,8 @@ const Register = ({ handleRegister, isLoggedIn }) => {
                 name="email"
                 placeholder='Введите email'
                 onChange={handleChange}
-                value={values.email}
+                value={values.email || ''}
+                pattern="\S+@\S+\.\S+"
                 required
               />
               <p className={`register__input-error ${errors.email ? 'register__input-error_visible' : ''}`}>
@@ -78,7 +79,7 @@ const Register = ({ handleRegister, isLoggedIn }) => {
                 name="password"
                 placeholder='Введите пароль'
                 onChange={handleChange}
-                value={values.password}
+                value={values.password || ''}
                 required
               />
               <p className={`register__input-error ${errors.password ? 'register__input-error_visible' : ''}`}>
