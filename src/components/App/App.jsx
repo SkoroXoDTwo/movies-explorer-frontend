@@ -1,7 +1,8 @@
+import './App.css';
+
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
-import './App.css';
+import { useLocation } from "react-router-dom";
 
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -18,6 +19,7 @@ import { DEFAULT_ERROR, EDIT_PROFILE_ERRORS_OBJ, LOGIN_ERRORS_OBJ, REGISTER_ERRO
 
 const App = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [currentUser, setCurrentUser] = useState({
     name: '',
     email: ''
@@ -35,12 +37,13 @@ const App = () => {
     }
   }, [])
 
-  const checkToken = (jwt) => {
+  const checkToken = (jwt, pathRedirect) => {
     mainApi
       .checkToken(jwt)
       .then(({ data }) => {
         setCurrentUser({ name: data.name, email: data.email });
         setIsLoggedIn(true);
+        pathRedirect ? navigate(pathRedirect) : navigate(pathname);
       })
       .catch((err) => {
         console.log(err);
@@ -68,11 +71,10 @@ const App = () => {
     mainApi
       .postRegister(password, email, name)
       .then(({ data, token }) => {
-        checkToken(token)
+        checkToken(token, '/movies')
         setIsLoggedIn(true);
         setCurrentUser({ name: data.name, email: data.email });
         localStorage.setItem('jwt', token)
-        navigate('/movies');
       })
       .catch((err) => {
         setErrorApi({
@@ -86,10 +88,9 @@ const App = () => {
     mainApi
       .postLogin(password, email)
       .then((data) => {
-        checkToken(data.token)
+        checkToken(data.token, '/movies')
         setIsLoggedIn(true);
         localStorage.setItem('jwt', data.token)
-        navigate('/movies');
       })
       .catch((err) => {
         setErrorApi({
