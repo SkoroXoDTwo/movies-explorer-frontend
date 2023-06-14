@@ -9,10 +9,23 @@ import MessageContainer from '../MessageContainer/MessageContainer';
 
 import { SAVED_MOVIES_NOT_DATA } from '../../utils/constants';
 
-const SavedMovies = ({ moviesItems, handleDeleteLikeCard }) => {
+const SavedMovies = ({ moviesItems, handleDeleteLikeCard, uploadSavedMoviesFromApi }) => {
   const [searchValue, setSearchValue] = useState('');
   const [isShotModeActive, setIsShotModeActive] = useState(false);
   const [filteredCards, setFilteredCards] = useState(moviesItems);
+
+  useEffect(() => {
+    uploadSavedMoviesFromApi();
+  }, []);
+
+  useEffect(() => {
+    const filteredCardsArray = moviesItems.filter(card => {
+      return card.nameRU.toLowerCase().includes(searchValue.toLowerCase())
+        && (isShotModeActive ? card.duration < 41 : true);
+    });
+
+    setFilteredCards(filteredCardsArray);
+  }, [moviesItems]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -24,15 +37,6 @@ const SavedMovies = ({ moviesItems, handleDeleteLikeCard }) => {
 
     setFilteredCards(filteredCardsArray);
   }
-
-  useEffect(() => {
-    const filteredCardsArray = moviesItems.filter(card => {
-      return card.nameRU.toLowerCase().includes(searchValue.toLowerCase())
-        && (isShotModeActive ? card.duration < 41 : true);
-    });
-
-    setFilteredCards(filteredCardsArray);
-  }, [moviesItems])
 
   return (
     <>

@@ -12,7 +12,7 @@ import moviesApi from '../../utils/MoviesApi';
 
 import { ENTER_VALUE_IN_SEARCH, MOVIES_NOT_DATA, SERVER_MOVIES_ERROR } from '../../utils/constants';
 
-const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
+const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies, uploadSavedMoviesFromApi }) => {
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [isLoadingApi, setIsLoadingApi] = useState(false);
@@ -32,6 +32,8 @@ const Movies = ({ handlePutLikeCard, handleDeleteLikeCard, savedMovies }) => {
     setSearchValue(localStorageItemMoviesSearchValue);
     setIsShotModeActive(localStorageIsShotModeActive);
     setIsApiDataUploaded(localStorageItemMovies !== null)
+
+    uploadSavedMoviesFromApi();
   }, []);
 
   const setFilteredCardsArrayInLocalStorage = (cards, searchValue) => {

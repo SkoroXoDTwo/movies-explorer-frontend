@@ -24,20 +24,14 @@ const App = () => {
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [isSavedMoviesApiUploaded, setIsSavedMoviesApiUploaded] = useState(false);
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
 
     if (jwt) {
       checkToken(jwt);
-      mainApi
-        .getMovies({ jwt })
-        .then((movies) => {
-          setSavedMovies(movies.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+      uploadSavedMoviesFromApi();
     }
   }, [])
 
@@ -52,7 +46,22 @@ const App = () => {
         console.log(err);
         setIsLoggedIn(false);
       });
+  }
 
+  const uploadSavedMoviesFromApi = () => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (!isSavedMoviesApiUploaded) {
+      mainApi
+        .getMovies({ jwt })
+        .then((movies) => {
+          setIsSavedMoviesApiUploaded(true);
+          setSavedMovies(movies.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   }
 
   const handleRegister = ({ password, email, name, setErrorApi }) => {
@@ -93,7 +102,14 @@ const App = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("filtered-movies");
+    localStorage.removeItem("is-shot-mode-active");
+    localStorage.removeItem("movies-search-value");
+    localStorage.removeItem("movies");
+
+    setSavedMovies([]);
     setIsLoggedIn(false);
+    setIsSavedMoviesApiUploaded(false);
     navigate("/");
   };
 
@@ -152,7 +168,6 @@ const App = () => {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Routes>
-
           <Route
             path="/movies"
             element={
@@ -162,6 +177,8 @@ const App = () => {
                 savedMovies={savedMovies}
                 handlePutLikeCard={handlePutLikeCard}
                 handleDeleteLikeCard={handleDeleteLikeCard}
+                isSavedMoviesApiUploaded={isSavedMoviesApiUploaded}
+                uploadSavedMoviesFromApi={uploadSavedMoviesFromApi}
               />
             }
           />
@@ -173,6 +190,8 @@ const App = () => {
                 isLoggedIn={isLoggedIn}
                 moviesItems={savedMovies}
                 handleDeleteLikeCard={handleDeleteLikeCard}
+                isSavedMoviesApiUploaded={isSavedMoviesApiUploaded}
+                uploadSavedMoviesFromApi={uploadSavedMoviesFromApi}
               />
             }
           />
