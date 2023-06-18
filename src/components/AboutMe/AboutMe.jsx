@@ -1,7 +1,7 @@
 import SectionTitle from '../SectionTitle/SectionTitle';
 import './AboutMe.css';
 
-function AboutMe() {
+const AboutMe = () => {
   return (
     <section className='about-me' id="about-me">
       <div className='about-me__container'>

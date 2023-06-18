@@ -148,6 +148,35 @@
   outline: none;
 }
 
+.profile__input-err {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  transform: translateY(-100%);
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.profile__input-err_visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.profile__input-err_bottom {
+  top: auto;
+  bottom: -8px;
+  transform: translateY(100%);
+}
+
 .profile__edit-btn {
   margin: 0 0 16px;
   padding: 0;
@@ -201,7 +230,12 @@
   text-align: center;
   color: #FFFFFF;
   border: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.profile__save-btn_disabled {
+  background: #424242;
+  color: #C2C2C2;
 }
 
 @media screen and (max-width: 550px) {
@@ -213,6 +247,11 @@
 .profile__save-btn:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+.profile__save-btn_disabled:hover {
+  opacity: 1;
+  cursor: default;
 }
 
 .profile__error-msg {
@@ -234,6 +273,29 @@
 }
 
 .profile__error-msg_visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.profile__info-message {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #3DDC84;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.profile__info-message_visible {
   opacity: 1;
   visibility: visible;
 }

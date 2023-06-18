@@ -1,7 +1,7 @@
 import SectionTitle from '../SectionTitle/SectionTitle';
 import './Techs.css';
 
-function Techs({ tehcsList }) {
+const Techs = ({ tehcsList }) => {
   return (
     <section className='techs' id="techs">
       <div className='techs__container'>

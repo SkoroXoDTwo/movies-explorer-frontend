@@ -10,11 +10,10 @@ import './Main.css';
 import { portfolioProjectsConfig } from '../../config/portfolioProjectsConfig';
 import Portfolio from '../Portfolio/Portfolio';
 
-function Main() {
-
+const Main = ({ isLoggedIn }) => {
   return (
     <>
-      <Header isAuth={true} backgroundColor="#073042" />
+      <Header isAuth={isLoggedIn} backgroundColor="#073042" />
       <main>
         <Promo />
         <NavTab />
